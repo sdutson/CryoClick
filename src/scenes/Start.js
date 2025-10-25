@@ -5,7 +5,7 @@ export class Start extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', 'assets/mars_background.png');
+        this.load.image('start-background', 'assets/space.png');
         this.load.image('logo', 'assets/phaser.png');
 
         //  The ship sprite is CC0 from https://ansimuz.itch.io - check out his other work!
@@ -13,32 +13,30 @@ export class Start extends Phaser.Scene {
     }
 
     create() {
-        this.background = this.add.tileSprite(640, 360, 1280, 719, 'background');
-
-        const logo = this.add.image(640, 200, 'logo');
-
-        const ship = this.add.sprite(640, 360, 'ship');
-
-        ship.anims.create({
-            key: 'fly',
-            frames: this.anims.generateFrameNumbers('ship', { start: 0, end: 2 }),
-            frameRate: 15,
-            repeat: -1
-        });
-
-        ship.play('fly');
-
-        this.tweens.add({
-            targets: logo,
-            y: 400,
-            duration: 1500,
-            ease: 'Sine.inOut',
-            yoyo: true,
-            loop: -1
-        });
- 
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
+
+        this.background = this.add.tileSprite(640, 360, 1280, 720, 'start-background');
+        this.add.text(centerX, centerY - 100, 'Welcome to CryoClick', {
+            fontFamily: 'Orbitron',
+            fontSize: '64px',
+            stroke: '#bcc4ca',
+            align: 'center',
+            color: '#2457ffff',
+            strokeThickness: 6
+        }).setOrigin(0.5);
+
+        // Get the width and height of the game canvas
+        const width = this.cameras.main.width;
+        const height = this.cameras.main.height;
+
+        // Add credits text at the bottom center
+        this.add.text(width / 2, height - 250, 'Will Jackson, Sam Dutson, Eva Giddings', {
+            fontFamily: 'Courier, Courier New, monospace',
+            fontSize: '12px',
+            color: 'white',
+            align: 'center'
+        }).setOrigin(0.5, 1); // x centered, y aligned to bottom of text
 
         const startButton = this.add.text(centerX, centerY, 'Start', { fontSize: '32px', color: 'white' })
             .setOrigin(0.5)
