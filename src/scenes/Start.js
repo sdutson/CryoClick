@@ -36,6 +36,15 @@ export class Start extends Phaser.Scene {
             yoyo: true,
             loop: -1
         });
+ 
+        const startButton = this.add.text(400, 300, 'Start', { fontSize: '32px', color: '#fff' })
+        .setOrigin(0.5)
+        .setInteractive();
+
+        startButton.on('pointerdown', () => {
+            // Move to IntroScene when clicked
+            this.scene.start('LandingAnimation');
+        });
     }
 
     update() {

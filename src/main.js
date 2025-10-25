@@ -1,4 +1,7 @@
 import { Start } from './scenes/Start.js';
+import { LandingAnimation } from './scenes/LandingAnimation.js';
+import { BeforeCryo } from './scenes/BeforeCryo.js';
+import { AfterCryo } from './scenes/AfterCryo.js';
 
 const config = {
     type: Phaser.AUTO,
@@ -10,7 +13,10 @@ const config = {
     backgroundColor: '#000000',
     pixelArt: false,
     scene: [
-        Start
+        Start,
+        LandingAnimation,
+        BeforeCryo,
+        AfterCryo,
     ],
     scale: {
         mode: Phaser.Scale.FIT,
