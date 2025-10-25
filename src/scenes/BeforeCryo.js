@@ -8,6 +8,7 @@ export class BeforeCryo extends Phaser.Scene {
         this.load.image('background', 'assets/mars_background.png');
         this.load.image('ship_background', 'assets/ship_background.png');
         this.load.image('dashboard_bottom', 'assets/dashboard_bottom.png');
+        this.load.image('bottom_right', 'assets/bottom_right.png');
         this.load.image('dash', 'assets/dash.png');
         this.load.image('dash_left', 'assets/dash_left.png');
         this.load.image('alien', 'assets/alien.png');
@@ -28,7 +29,7 @@ export class BeforeCryo extends Phaser.Scene {
         this.vials2 = this.add.sprite(100, 350, 'vials');
         this.dash = this.add.sprite(960, 320, 'dash');
         this.dash_left = this.add.sprite(320, 320, 'dash_left').setFlipX(true);
-        this.dashboard_bottom = this.add.sprite(960, 615, 'dashboard_bottom');
+        this.bottom_right = this.add.sprite(960, 373, 'bottom_right');
         this.dashboard_bottom_flipped = this.add.sprite(320, 615, 'dashboard_bottom').setFlipX(true);
         this.side_pannel = this.add.sprite(1200, 50, 'side_pannel');
         this.side_pannel_2 = this.add.sprite(1200, 200, 'side_pannel');
@@ -70,6 +71,57 @@ export class BeforeCryo extends Phaser.Scene {
         });
     }
 
+    // Create colored overlay (hidden initially)
+    this.lightingOverlay = this.add.rectangle(0, 0, 1280, 720, 0xffffff, 0.15)
+        .setOrigin(0, 0)
+        .setDepth(500)
+        .setVisible(false);
+
+    // Define 4 colors + 1 off button
+    const lightColors = [
+        0xff0000,  // red
+        0x0000ff,  // blue
+        0x00ff00,  // green
+        0xffff00,  // yellow
+        null       // off (button 5)
+    ];
+
+    // Position for buttons (adjust these X,Y coordinates to where your buttons are)
+    const buttonPositions = [
+        { x: 775, y: 520 },
+        { x: 775, y: 545 },
+        { x: 790, y: 570 },
+        { x: 800, y: 600 },
+        { x: 820, y: 635 }
+    ];
+
+    // Create 5 flashing buttons
+    buttonPositions.forEach((pos, index) => {
+        const button = this.add.rectangle(pos.x, pos.y, 50, 20, 0xffffff, 0.7)
+            .setDepth(15)
+            .setInteractive({ useHandCursor: true });
+
+        // Flashing tween
+        this.tweens.add({
+            targets: button,
+            alpha: 0.2,
+            duration: 500,
+            yoyo: true,
+            repeat: -1
+        });
+
+        // Click handler
+        button.on('pointerdown', () => {
+            if (lightColors[index] === null) {
+                // Button 5 - turn off
+                this.lightingOverlay.setVisible(false);
+            } else {
+                // Buttons 1-4 - change color
+                this.lightingOverlay.setVisible(true);
+                this.lightingOverlay.setFillStyle(lightColors[index], 0.15);
+            }
+        });
+    });
         // --- Large flashing box (clickable) ---
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
