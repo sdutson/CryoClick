@@ -15,19 +15,28 @@ export class BeforeCryo extends Phaser.Scene {
         this.ship_background = this.add.sprite(960, 360, 'ship_background');
         this.ship_background_flipped = this.add.sprite(320, 360, 'ship_background').setFlipX(true);
         this.dashboard = this.add.sprite(960, 400, 'dashboard');
-        this.dashboard_flipped = this.add.sprite(320, 400, 'dashboard').setFlipX(true);;
-        this.add.text(100, 100, 'Before Cryo Scene', { fontSize: '32px', color: '#fff' });
+        this.dashboard_flipped = this.add.sprite(320, 400, 'dashboard').setFlipX(true);
 
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
 
-        const startButton = this.add.text(centerX, centerY, 'Next', { fontSize: '32px', color: 'white' })
-            .setOrigin(0.5)
-            .setInteractive();
+        // Create a semi-transparent black rectangle
+        const box = this.add.rectangle(
+            centerX - 325,    // x position
+            centerY + 40,    // y position
+            175,    // width
+            150,    // height
+            0xffffff, // color in hex (black)
+            0.80      // alpha: 50% transparent
+        ).setOrigin(0.5);
 
-        startButton.on('pointerdown', () => {
-            // Move to IntroScene when clicked
-            this.scene.start('AfterCryo');
+        // Tween to flash the box
+        this.tweens.add({
+            targets: box,    // object to animate
+            alpha: 0.1,      // target alpha (more transparent)
+            duration: 500,   // 500 ms fade
+            yoyo: true,      // fade back to original alpha
+            repeat: -1       // repeat forever
         });
     }
     
