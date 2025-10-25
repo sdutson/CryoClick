@@ -15,7 +15,6 @@ export class BeforeCryo extends Phaser.Scene {
         this.load.image('wires_left', 'assets/wires_left.png');
         this.load.image('wires_right', 'assets/wires_right.png');
         this.load.image('side_pannel', 'assets/side_pannel.png');
-        this.load.image('bottom_right', 'assets/bottom_right.png');
     }
 
     create() {
@@ -29,7 +28,7 @@ export class BeforeCryo extends Phaser.Scene {
         this.vials2 = this.add.sprite(100, 350, 'vials');
         this.dash = this.add.sprite(960, 320, 'dash');
         this.dash_left = this.add.sprite(320, 320, 'dash_left').setFlipX(true);
-        this.bottom_right = this.add.sprite(960, 373, 'bottom_right');
+        this.dashboard_bottom = this.add.sprite(960, 615, 'dashboard_bottom');
         this.dashboard_bottom_flipped = this.add.sprite(320, 615, 'dashboard_bottom').setFlipX(true);
         this.side_pannel = this.add.sprite(1200, 50, 'side_pannel');
         this.side_pannel_2 = this.add.sprite(1200, 200, 'side_pannel');
@@ -49,7 +48,9 @@ export class BeforeCryo extends Phaser.Scene {
         this.alienBox = this.add.rectangle(boxCenterX, boxCenterY, 60, 60, 0xffffff, 0.5)
             .setOrigin(0.5)
             .setDepth(10)
+            .setVisible(false)
             .setInteractive({ useHandCursor: true });
+            
 
         this.tweens.add({
             targets: this.alienBox,
@@ -68,58 +69,6 @@ export class BeforeCryo extends Phaser.Scene {
             }
         });
     }
-
-            // Create colored overlay (hidden initially)
-    this.lightingOverlay = this.add.rectangle(0, 0, 1280, 720, 0xffffff, 0.15)
-        .setOrigin(0, 0)
-        .setDepth(500)
-        .setVisible(false);
-
-    // Define 4 colors + 1 off button
-    const lightColors = [
-        0xff0000,  // red
-        0x0000ff,  // blue
-        0x00ff00,  // green
-        0xffff00,  // yellow
-        null       // off (button 5)
-    ];
-
-    // Position for buttons (adjust these X,Y coordinates to where your buttons are)
-    const buttonPositions = [
-        { x: 775, y: 520 },
-        { x: 775, y: 545 },
-        { x: 790, y: 570 },
-        { x: 800, y: 600 },
-        { x: 820, y: 635 }
-    ];
-
-    // Create 5 flashing buttons
-    buttonPositions.forEach((pos, index) => {
-        const button = this.add.rectangle(pos.x, pos.y, 50, 20, 0xffffff, 0.7)
-            .setDepth(15)
-            .setInteractive({ useHandCursor: true });
-
-        // Flashing tween
-        this.tweens.add({
-            targets: button,
-            alpha: 0.2,
-            duration: 500,
-            yoyo: true,
-            repeat: -1
-        });
-
-        // Click handler
-        button.on('pointerdown', () => {
-            if (lightColors[index] === null) {
-                // Button 5 - turn off
-                this.lightingOverlay.setVisible(false);
-            } else {
-                // Buttons 1-4 - change color
-                this.lightingOverlay.setVisible(true);
-                this.lightingOverlay.setFillStyle(lightColors[index], 0.15);
-            }
-        });
-    });
 
         // --- Large flashing box (clickable) ---
         const centerX = this.cameras.main.width / 2;
@@ -176,6 +125,7 @@ export class BeforeCryo extends Phaser.Scene {
                 termText.setVisible(false);
                 inputText.setVisible(false);
                 termText.text = "";
+                this.alienBox.setVisible(true);
             }
             else if(cmd == "clear") {
                 termText.text = "";
@@ -192,8 +142,28 @@ export class BeforeCryo extends Phaser.Scene {
                 termText.text += "Checking life support...\nLife support systems green\n";
             } else if (cmd.startsWith("Message Earth:")) {
                 // Capture the message after the colon
-                const message = cmd.slice("Message Earth:".length).trim();
-                termText.text += "Sending message...\nMessage sent: " + message + "\n";
+                const userMessage = cmd.slice("Message Earth:".length).trim();
+                termText.text += "Sending message...\nMessage sent: " + userMessage + "\n";
+
+                // Array of funny/random Earth responses
+                const earthResponses = [
+                    "Earth here: Message received loud and clear.",
+                    "Earth here: We hope everything is going smoothly up there.",
+                    "Earth here: All systems appear normal… except for some strange activity outside.",
+                    "Earth here: Copy that. Over and out.",
+                    "Earth here: Things look… interesting on your side. Some shadows moved in odd ways.",
+                    "Earth here: Noted. Someone—or something—might be misbehaving nearby.",
+                    "Earth here: Your last transmission has been logged. There was some unusual… motion observed outside the base.",
+                    "Earth here: Received. We can’t confirm, but we saw things that looked… questionable.",
+                    "Earth here: Good to hear from you. Activity in the area is… lively and somewhat inappropriate.",
+                    "Earth here: Message acknowledged. Let’s hope the creatures outside keep their hands to themselves."
+                ];
+
+                // Pick a random response
+                const randomResponse = earthResponses[Math.floor(Math.random() * earthResponses.length)];
+
+                termText.text += randomResponse + "\n";
+
             } else {
                 termText.text += "Unknown command: " + cmd + "\n";
             }

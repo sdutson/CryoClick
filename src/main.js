@@ -13,17 +13,10 @@ const config = {
     backgroundColor: '#000000',
     pixelArt: false,
     scene: [
-<<<<<<< HEAD
-        //Start,
-        //LandingAnimation,
-        BeforeCryo,
-        //FlyAway,
-=======
-        Start,
-        LandingAnimation,
-        BeforeCryo,
+        // Start,
+        // LandingAnimation,
+        // BeforeCryo,
         FlyAway,
->>>>>>> dc05a07b6a9685ebeda833a00494046c5664e932
     ],
     scale: {
         mode: Phaser.Scale.FIT,
