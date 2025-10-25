@@ -270,7 +270,7 @@ export class BeforeCryo extends Phaser.Scene {
                 if (charIndex >= message.length) {
                     typingEvent.remove();
                     // Optionally go back to main screen after a delay
-                    this.time.delayedCall(2000, () => this.scene.start('FlyAway.js'));
+                    this.time.delayedCall(2000, () => this.scene.start('FlyAway'));
                 }
             },
             loop: true
