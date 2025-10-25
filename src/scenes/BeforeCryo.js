@@ -86,7 +86,6 @@ export class BeforeCryo extends Phaser.Scene {
             repeat: -1
         });
 
-
         // --- Terminal setup (hidden initially) ---
         const termBg = this.add.rectangle(0, 0, 1280, 720, 0x000000, 1)
             .setOrigin(0, 0)
@@ -111,17 +110,28 @@ export class BeforeCryo extends Phaser.Scene {
         // Function to handle commands
         const handleCommand = (cmd) => {
             termText.text += '\n> ' + cmd + '\n'; // show user input
-
             cmd = cmd.trim();
 
             if (cmd === "exit") {
-                // Hide terminal when user types exit
+                // Hide terminal
                 termBg.setVisible(false);
                 termText.setVisible(false);
                 inputText.setVisible(false);
                 currentInput = '';
                 inputText.text = '';
-                return; // stop further processing
+                return;
+            }
+
+            if (cmd === "clear") {
+                // Reset terminal to initial prompt
+                termText.text = "What do you want to do first?\n\n";
+                typeMessage("1. Activate Rovers");
+                typeMessage("2. Check Life Support");
+                typeMessage("3. Message Earth: {message}\n");
+                typeMessage("Type 'exit' to return, 'clear' to reset");
+                inputText.text = '';
+                currentInput = '';
+                return;
             }
 
             if (cmd === "Activate Rovers") {
@@ -129,18 +139,15 @@ export class BeforeCryo extends Phaser.Scene {
             } else if (cmd === "Check Life Support") {
                 termText.text += "Checking life support...\nLife support systems green\n";
             } else if (cmd.startsWith("Message Earth:")) {
-                // Capture the message after the colon
                 const message = cmd.slice("Message Earth:".length).trim();
                 termText.text += "Sending message...\nMessage sent: " + message + "\n";
             } else {
                 termText.text += "Unknown command: " + cmd + "\n";
             }
 
-            inputText.text = '';   // clear input field
-            currentInput = '';     // reset buffer
+            inputText.text = '';   
+            currentInput = '';
         };
-
-
 
         // Keyboard input
         this.input.keyboard.on('keydown', (event) => {
@@ -162,13 +169,11 @@ export class BeforeCryo extends Phaser.Scene {
             termText.setVisible(true);
             inputText.setVisible(true);
 
-            termText.text = "";
-
-            typeMessage("What do you want to do first?\n");
+            termText.text = "What do you want to do first?\n\n";
             typeMessage("1. Activate Rovers");
             typeMessage("2. Check Life Support");
-            typeMessage("3. Message Earth: {message}\n")
-            typeMessage("Type 'exit' to return")
+            typeMessage("3. Message Earth: {message}\n");
+            typeMessage("Type 'exit' to return, 'clear' to reset");
         });
 
         const typeMessage = (message) => {
@@ -186,7 +191,7 @@ export class BeforeCryo extends Phaser.Scene {
         this.cameras.main.zoomTo(4, 1200, 'Sine.easeInOut', true);
 
         this.time.delayedCall(1300, () => {
-            // Move aliens slightly closer
+            // Move aliens slightly closer before cutting
             this.tweens.add({
                 targets: this.alienLeft,
                 x: this.alienLeft.x + 6,
@@ -239,8 +244,8 @@ export class BeforeCryo extends Phaser.Scene {
                 charIndex++;
                 if (charIndex >= message.length) {
                     typingEvent.remove();
-                    // Optionally go back to main screen after a delay
-                    this.time.delayedCall(2000, () => this.scene.restart());
+                    // Go back to main screen faster
+                    this.time.delayedCall(1000, () => this.scene.restart());
                 }
             },
             loop: true
