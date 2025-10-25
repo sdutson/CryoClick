@@ -123,11 +123,7 @@ export class BeforeCryo extends Phaser.Scene {
             } else if (cmd === "Check Life Support") {
                 termText.text += "Checking life support...\nLife support systems green\n";
             } else if (cmd.startsWith("Message Earth:")) {
-<<<<<<< Updated upstream
                 // Capture the message after the colon
-                const message = cmd.slice("Message Earth:".length).trim();
-                termText.text += "Sending message...\nMessage sent: " + message + "\n";
-=======
                 const userMessage = cmd.slice("Message Earth:".length).trim();
                 termText.text += "Sending message...\nMessage sent: " + userMessage + "\n";
 
@@ -150,7 +146,6 @@ export class BeforeCryo extends Phaser.Scene {
 
                 termText.text += randomResponse + "\n";
 
->>>>>>> Stashed changes
             } else {
                 termText.text += "Unknown command: " + cmd + "\n";
             }
