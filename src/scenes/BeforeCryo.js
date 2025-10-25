@@ -51,20 +51,103 @@ export class BeforeCryo extends Phaser.Scene {
             }
         });
 
-        // --- Regular info box (still flashing) ---
+        // --- Large flashing box (clickable) ---
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
 
-        this.infoBox = this.add.rectangle(centerX - 325, centerY + 40, 175, 150, 0xffffff, 0.8)
-            .setOrigin(0.5);
+        const terminalBox = this.add.rectangle(
+            centerX - 325,
+            centerY + 40,
+            175,
+            150,
+            0xffffff,
+            0.8
+        ).setOrigin(0.5)
+         .setInteractive(); // <-- make clickable
 
         this.tweens.add({
-            targets: this.infoBox,
+            targets: terminalBox,
             alpha: 0.1,
             duration: 500,
             yoyo: true,
             repeat: -1
         });
+
+
+        // --- Terminal setup (hidden initially) ---
+        const termBg = this.add.rectangle(0, 0, 1280, 720, 0x000000, 1)
+            .setOrigin(0, 0)
+            .setDepth(1000)
+            .setVisible(false);
+
+        let termText = this.add.text(20, 20, '', {
+            fontFamily: 'monospace',
+            fontSize: '24px',
+            color: '#00ff00',
+            wordWrap: { width: 1240 }
+        }).setDepth(1001).setVisible(false);
+
+        let inputText = this.add.text(20, 680, '', {
+            fontFamily: 'monospace',
+            fontSize: '24px',
+            color: '#00ff00'
+        }).setDepth(1001).setVisible(false);
+
+        let currentInput = '';
+
+        // Function to handle commands
+        const handleCommand = (cmd) => {
+            termText.text += '\n> ' + cmd + '\n'; // show user input
+
+            cmd = cmd.trim();
+
+            if (cmd === "Activate Rovers") {
+                termText.text += "Activating rovers...\nSuccess\n";
+            } else if (cmd === "Check Life Support") {
+                termText.text += "Checking life support...\nLife support systems green\n";
+            } else if (cmd.startsWith("Message Earth:")) {
+                // Capture the message after the colon
+                const message = cmd.slice("Message Earth:".length).trim();
+                termText.text += "Sending message...\nMessage sent: " + message + "\n";
+            } else {
+                termText.text += "Unknown command: " + cmd + "\n";
+            }
+
+            inputText.text = '';   // clear input field
+            currentInput = '';     // reset buffer
+        };
+
+
+
+        // Keyboard input
+        this.input.keyboard.on('keydown', (event) => {
+            if (!termBg.visible) return;
+
+            if (event.key === "Backspace") {
+                currentInput = currentInput.slice(0, -1);
+            } else if (event.key === "Enter") {
+                handleCommand(currentInput);
+            } else if (event.key.length === 1) {
+                currentInput += event.key;
+            }
+            inputText.text = '> ' + currentInput;
+        });
+
+        // Show terminal when box clicked
+        terminalBox.on('pointerdown', () => {
+            termBg.setVisible(true);
+            termText.setVisible(true);
+            inputText.setVisible(true);
+
+            typeMessage("What do you want to do first?");
+            typeMessage("1. Activate Rovers");
+            typeMessage("2. Check Life Support");
+            typeMessage("3. Message Earth: {message}")
+        });
+
+        const typeMessage = (message) => {
+            termText.text += message + '\n';
+        };
     }
 
     // --- Alien sequence method ---
