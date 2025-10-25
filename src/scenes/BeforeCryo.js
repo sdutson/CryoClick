@@ -6,11 +6,13 @@ export class BeforeCryo extends Phaser.Scene {
 
     preload() {
         this.load.image('background', 'assets/space.png');
+        this.load.image('ship_background', 'assets/ship_background.png');
     }
 
     create() {
-        this.background = this.add.tileSprite(640, 360, 1280, 720, 'background');
-
+        this.background = this.add.tileSprite(640, 150, 1280, 720, 'background');
+        this.ship_background = this.add.sprite(960, 360, 'ship_background');
+        this.ship_background_flipped = this.add.sprite(320, 360, 'ship_background').setFlipX(true);
         this.add.text(100, 100, 'Before Cryo Scene', { fontSize: '32px', color: '#fff' });
 
         const centerX = this.cameras.main.width / 2;
@@ -24,10 +26,6 @@ export class BeforeCryo extends Phaser.Scene {
             // Move to IntroScene when clicked
             this.scene.start('AfterCryo');
         });
-    }
-
-    update() {
-        this.background.tilePositionX += 2;
     }
     
 }
