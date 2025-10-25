@@ -123,9 +123,34 @@ export class BeforeCryo extends Phaser.Scene {
             } else if (cmd === "Check Life Support") {
                 termText.text += "Checking life support...\nLife support systems green\n";
             } else if (cmd.startsWith("Message Earth:")) {
+<<<<<<< Updated upstream
                 // Capture the message after the colon
                 const message = cmd.slice("Message Earth:".length).trim();
                 termText.text += "Sending message...\nMessage sent: " + message + "\n";
+=======
+                const userMessage = cmd.slice("Message Earth:".length).trim();
+                termText.text += "Sending message...\nMessage sent: " + userMessage + "\n";
+
+                // Array of funny/random Earth responses
+                const earthResponses = [
+                    "Earth here: Message received loud and clear.",
+                    "Earth here: We hope everything is going smoothly up there.",
+                    "Earth here: All systems appear normal… except for some strange activity outside.",
+                    "Earth here: Copy that. Over and out.",
+                    "Earth here: Things look… interesting on your side. Some shadows moved in odd ways.",
+                    "Earth here: Noted. Someone—or something—might be misbehaving nearby.",
+                    "Earth here: Your last transmission has been logged. There was some unusual… motion observed outside the base.",
+                    "Earth here: Received. We can’t confirm, but we saw things that looked… questionable.",
+                    "Earth here: Good to hear from you. Activity in the area is… lively and somewhat inappropriate.",
+                    "Earth here: Message acknowledged. Let’s hope the creatures outside keep their hands to themselves."
+                ];
+
+                // Pick a random response
+                const randomResponse = earthResponses[Math.floor(Math.random() * earthResponses.length)];
+
+                termText.text += randomResponse + "\n";
+
+>>>>>>> Stashed changes
             } else {
                 termText.text += "Unknown command: " + cmd + "\n";
             }
