@@ -13,9 +13,9 @@ const config = {
     backgroundColor: '#000000',
     pixelArt: false,
     scene: [
-        Start,
-        LandingAnimation,
-        BeforeCryo,
+        // Start,
+        // LandingAnimation,
+        // BeforeCryo,
         FlyAway,
     ],
     scale: {
