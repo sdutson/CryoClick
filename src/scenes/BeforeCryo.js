@@ -114,6 +114,16 @@ export class BeforeCryo extends Phaser.Scene {
 
             cmd = cmd.trim();
 
+            if (cmd === "exit") {
+                // Hide terminal when user types exit
+                termBg.setVisible(false);
+                termText.setVisible(false);
+                inputText.setVisible(false);
+                currentInput = '';
+                inputText.text = '';
+                return; // stop further processing
+            }
+
             if (cmd === "Activate Rovers") {
                 termText.text += "Activating rovers...\nSuccess\n";
             } else if (cmd === "Check Life Support") {
@@ -152,10 +162,13 @@ export class BeforeCryo extends Phaser.Scene {
             termText.setVisible(true);
             inputText.setVisible(true);
 
-            typeMessage("What do you want to do first?");
+            termText.text = "";
+
+            typeMessage("What do you want to do first?\n");
             typeMessage("1. Activate Rovers");
             typeMessage("2. Check Life Support");
-            typeMessage("3. Message Earth: {message}")
+            typeMessage("3. Message Earth: {message}\n")
+            typeMessage("Type 'exit' to return")
         });
 
         const typeMessage = (message) => {
