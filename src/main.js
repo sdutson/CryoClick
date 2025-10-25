@@ -15,8 +15,8 @@ const config = {
     scene: [
         // Start,
         // LandingAnimation,
-        // BeforeCryo,
-        FlyAway,
+        BeforeCryo,
+        // FlyAway,
     ],
     scale: {
         mode: Phaser.Scale.FIT,

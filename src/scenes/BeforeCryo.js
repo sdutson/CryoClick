@@ -118,7 +118,22 @@ export class BeforeCryo extends Phaser.Scene {
 
             cmd = cmd.trim();
 
-            if (cmd === "Activate Rovers") {
+            if(cmd == "exit") {
+                termBg.setVisible(false);
+                termText.setVisible(false);
+                inputText.setVisible(false);
+                termText.text = "";
+            }
+            else if(cmd == "clear") {
+                termText.text = "";
+                typeMessage("What do you want to do first?");
+                typeMessage("1. Activate Rovers");
+                typeMessage("2. Check Life Support");
+                typeMessage("3. Message Earth: {message}\n\n");
+                typeMessage("Type 'exit' to exit\n");
+                typeMessage("Type 'clear' to clear");
+            }
+            else if (cmd === "Activate Rovers") {
                 termText.text += "Activating rovers...\nSuccess\n";
             } else if (cmd === "Check Life Support") {
                 termText.text += "Checking life support...\nLife support systems green\n";
@@ -175,11 +190,15 @@ export class BeforeCryo extends Phaser.Scene {
             termBg.setVisible(true);
             termText.setVisible(true);
             inputText.setVisible(true);
+            termText.text = "";
 
             typeMessage("What do you want to do first?");
             typeMessage("1. Activate Rovers");
             typeMessage("2. Check Life Support");
-            typeMessage("3. Message Earth: {message}")
+            typeMessage("3. Message Earth: {message}\n\n");
+            typeMessage("Type 'exit' to exit\n");
+            typeMessage("Type 'clear' to clear");
+
         });
 
         const typeMessage = (message) => {
@@ -251,7 +270,7 @@ export class BeforeCryo extends Phaser.Scene {
                 if (charIndex >= message.length) {
                     typingEvent.remove();
                     // Optionally go back to main screen after a delay
-                    this.time.delayedCall(2000, () => this.scene.restart());
+                    this.time.delayedCall(2000, () => this.scene.start('FlyAway.js'));
                 }
             },
             loop: true
