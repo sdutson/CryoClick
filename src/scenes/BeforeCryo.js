@@ -8,8 +8,13 @@ export class BeforeCryo extends Phaser.Scene {
         this.load.image('background', 'assets/mars_background.png');
         this.load.image('ship_background', 'assets/ship_background.png');
         this.load.image('dashboard_bottom', 'assets/dashboard_bottom.png');
-        this.load.image('dashboard', 'assets/dashboard.png');
+        this.load.image('dash', 'assets/dash.png');
+        this.load.image('dash_left', 'assets/dash_left.png');
         this.load.image('alien', 'assets/alien.png');
+        this.load.image('vials', 'assets/vials.png');
+        this.load.image('wires_left', 'assets/wires_left.png');
+        this.load.image('wires_right', 'assets/wires_right.png');
+        this.load.image('side_pannel', 'assets/side_pannel.png');
     }
 
     create() {
@@ -17,10 +22,18 @@ export class BeforeCryo extends Phaser.Scene {
         this.background = this.add.tileSprite(640, 150, 1280, 720, 'background');
         this.ship_background = this.add.sprite(960, 360, 'ship_background');
         this.ship_background_flipped = this.add.sprite(320, 360, 'ship_background').setFlipX(true);
-        this.dashboard = this.add.sprite(960, 400, 'dashboard');
-        this.dashboard_flipped = this.add.sprite(320, 400, 'dashboard').setFlipX(true);
+        this.side_pannel_3 = this.add.sprite(1200, 350, 'side_pannel');
+        this.vials = this.add.sprite(100, 150, 'vials');
+        this.vials2 = this.add.sprite(100, 250, 'vials');
+        this.vials2 = this.add.sprite(100, 350, 'vials');
+        this.dash = this.add.sprite(960, 320, 'dash');
+        this.dash_left = this.add.sprite(320, 320, 'dash_left').setFlipX(true);
         this.dashboard_bottom = this.add.sprite(960, 615, 'dashboard_bottom');
         this.dashboard_bottom_flipped = this.add.sprite(320, 615, 'dashboard_bottom').setFlipX(true);
+        this.side_pannel = this.add.sprite(1200, 50, 'side_pannel');
+        this.side_pannel_2 = this.add.sprite(1200, 200, 'side_pannel');
+        this.wires_left = this.add.sprite(320, 360, 'wires_left');
+        this.wires_right = this.add.sprite(960, 360, 'wires_right');
 
         // --- Aliens ---
         this.alienLeft = this.add.sprite(900, 195, 'alien').setScale(0.07).setDepth(5);
