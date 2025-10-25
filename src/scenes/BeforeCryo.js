@@ -1,4 +1,4 @@
-export class BeforeCypo extends Phaser.Scene {
+export class BeforeCryo extends Phaser.Scene {
 
     constructor() {
         super('BeforeCryo');
