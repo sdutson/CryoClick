@@ -15,7 +15,7 @@ export class Start extends Phaser.Scene {
     create() {
         this.background = this.add.tileSprite(640, 360, 1280, 719, 'background');
 
-        //const logo = this.add.image(640, 200, 'logo');
+        const logo = this.add.image(640, 200, 'logo');
 
         const ship = this.add.sprite(640, 360, 'ship');
 
@@ -37,9 +37,12 @@ export class Start extends Phaser.Scene {
             loop: -1
         });
  
-        const startButton = this.add.text(400, 300, 'Start', { fontSize: '32px', color: '#fff' })
-        .setOrigin(0.5)
-        .setInteractive();
+        const centerX = this.cameras.main.width / 2;
+        const centerY = this.cameras.main.height / 2;
+
+        const startButton = this.add.text(centerX, centerY, 'Start', { fontSize: '32px', color: 'white' })
+            .setOrigin(0.5)
+            .setInteractive();
 
         startButton.on('pointerdown', () => {
             // Move to IntroScene when clicked

@@ -13,9 +13,12 @@ export class LandingAnimation extends Phaser.Scene {
 
         this.add.text(100, 100, 'Landing Animation Scene', { fontSize: '32px', color: '#fff' });
 
-        const startButton = this.add.text(400, 300, 'Start', { fontSize: '32px', color: '#fff' })
-        .setOrigin(0.5)
-        .setInteractive();
+        const centerX = this.cameras.main.width / 2;
+        const centerY = this.cameras.main.height / 2;
+
+        const startButton = this.add.text(centerX, centerY, 'Next', { fontSize: '32px', color: 'white' })
+            .setOrigin(0.5)
+            .setInteractive();
 
         startButton.on('pointerdown', () => {
             // Move to IntroScene when clicked
