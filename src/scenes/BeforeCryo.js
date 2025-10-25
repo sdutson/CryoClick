@@ -7,12 +7,15 @@ export class BeforeCryo extends Phaser.Scene {
     preload() {
         this.load.image('background', 'assets/space.png');
         this.load.image('ship_background', 'assets/ship_background.png');
+        this.load.image('dashboard', 'assets/dashboard.png');
     }
 
     create() {
         this.background = this.add.tileSprite(640, 150, 1280, 720, 'background');
         this.ship_background = this.add.sprite(960, 360, 'ship_background');
         this.ship_background_flipped = this.add.sprite(320, 360, 'ship_background').setFlipX(true);
+        this.dashboard = this.add.sprite(960, 400, 'dashboard');
+        this.dashboard_flipped = this.add.sprite(320, 400, 'dashboard').setFlipX(true);;
         this.add.text(100, 100, 'Before Cryo Scene', { fontSize: '32px', color: '#fff' });
 
         const centerX = this.cameras.main.width / 2;
