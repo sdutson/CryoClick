@@ -7,6 +7,7 @@ export class BeforeCryo extends Phaser.Scene {
     preload() {
         this.load.image('background', 'assets/space.png');
         this.load.image('ship_background', 'assets/ship_background.png');
+        this.load.image('dashboard_bottom', 'assets/dashboard_bottom.png');
         this.load.image('dashboard', 'assets/dashboard.png');
     }
 
@@ -16,7 +17,8 @@ export class BeforeCryo extends Phaser.Scene {
         this.ship_background_flipped = this.add.sprite(320, 360, 'ship_background').setFlipX(true);
         this.dashboard = this.add.sprite(960, 400, 'dashboard');
         this.dashboard_flipped = this.add.sprite(320, 400, 'dashboard').setFlipX(true);
-
+        this.dashboard_bottom = this.add.sprite(960, 615, 'dashboard_bottom');
+        this.dashboard_botttom_flipped = this.add.sprite(320, 615, 'dashboard_bottom').setFlipX(true);;
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
 
