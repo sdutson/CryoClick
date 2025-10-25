@@ -5,7 +5,7 @@ export class Start extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('background', 'assets/space.png');
+        this.load.image('background', 'assets/mars_background.webp');
         this.load.image('logo', 'assets/phaser.png');
 
         //  The ship sprite is CC0 from https://ansimuz.itch.io - check out his other work!
@@ -13,9 +13,9 @@ export class Start extends Phaser.Scene {
     }
 
     create() {
-        this.background = this.add.tileSprite(640, 360, 1280, 720, 'background');
+        this.background = this.add.tileSprite(640, 360, 1800, 1200, 'background');
 
-        const logo = this.add.image(640, 200, 'logo');
+        //const logo = this.add.image(640, 200, 'logo');
 
         const ship = this.add.sprite(640, 360, 'ship');
 
