@@ -10,9 +10,15 @@ export class Start extends Phaser.Scene {
 
         //  The ship sprite is CC0 from https://ansimuz.itch.io - check out his other work!
         this.load.spritesheet('ship', 'assets/spaceship.png', { frameWidth: 176, frameHeight: 96 });
+
+        this.load.audio('bg-music', 'assets/space-lullaby.mp3');
     }
 
     create() {
+        // Add background music
+        this.bgMusic = this.sound.add('bg-music', { loop: true, volume: 0.5 });
+        this.bgMusic.play();
+
         const centerX = this.cameras.main.width / 2;
         const centerY = this.cameras.main.height / 2;
 
