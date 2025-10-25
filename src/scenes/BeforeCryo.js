@@ -40,6 +40,8 @@ export class BeforeCryo extends Phaser.Scene {
         this.alienRight = this.add.sprite(925, 195, 'alien').setFlipX(true).setScale(0.07).setDepth(5);
 
         // --- Flashing clickable box for aliens ---
+        // --- Flashing clickable box for aliens ---
+    if (!this.registry.get('alienWatched')) {
         const boxCenterX = (this.alienLeft.x + this.alienRight.x) / 2;
         const boxCenterY = (this.alienLeft.y + this.alienRight.y) / 2;
 
@@ -59,10 +61,12 @@ export class BeforeCryo extends Phaser.Scene {
         this.alienBox.on('pointerdown', () => {
             if (!this.alienAnimationTriggered) {
                 this.alienAnimationTriggered = true;
-                this.alienBox.destroy(); // remove flashing box immediately
+                this.registry.set('alienWatched', true); // Save the flag permanently
+                this.alienBox.destroy();
                 this.startAlienSequence();
             }
         });
+    }
 
         // --- Large flashing box (clickable) ---
         const centerX = this.cameras.main.width / 2;
@@ -85,6 +89,7 @@ export class BeforeCryo extends Phaser.Scene {
             yoyo: true,
             repeat: -1
         });
+
 
         // --- Terminal setup (hidden initially) ---
         const termBg = this.add.rectangle(0, 0, 1280, 720, 0x000000, 1)
@@ -110,44 +115,26 @@ export class BeforeCryo extends Phaser.Scene {
         // Function to handle commands
         const handleCommand = (cmd) => {
             termText.text += '\n> ' + cmd + '\n'; // show user input
+
             cmd = cmd.trim();
-
-            if (cmd === "exit") {
-                // Hide terminal
-                termBg.setVisible(false);
-                termText.setVisible(false);
-                inputText.setVisible(false);
-                currentInput = '';
-                inputText.text = '';
-                return;
-            }
-
-            if (cmd === "clear") {
-                // Reset terminal to initial prompt
-                termText.text = "What do you want to do first?\n\n";
-                typeMessage("1. Activate Rovers");
-                typeMessage("2. Check Life Support");
-                typeMessage("3. Message Earth: {message}\n");
-                typeMessage("Type 'exit' to return, 'clear' to reset");
-                inputText.text = '';
-                currentInput = '';
-                return;
-            }
 
             if (cmd === "Activate Rovers") {
                 termText.text += "Activating rovers...\nSuccess\n";
             } else if (cmd === "Check Life Support") {
                 termText.text += "Checking life support...\nLife support systems green\n";
             } else if (cmd.startsWith("Message Earth:")) {
+                // Capture the message after the colon
                 const message = cmd.slice("Message Earth:".length).trim();
                 termText.text += "Sending message...\nMessage sent: " + message + "\n";
             } else {
                 termText.text += "Unknown command: " + cmd + "\n";
             }
 
-            inputText.text = '';   
-            currentInput = '';
+            inputText.text = '';   // clear input field
+            currentInput = '';     // reset buffer
         };
+
+
 
         // Keyboard input
         this.input.keyboard.on('keydown', (event) => {
@@ -169,11 +156,10 @@ export class BeforeCryo extends Phaser.Scene {
             termText.setVisible(true);
             inputText.setVisible(true);
 
-            termText.text = "What do you want to do first?\n\n";
+            typeMessage("What do you want to do first?");
             typeMessage("1. Activate Rovers");
             typeMessage("2. Check Life Support");
-            typeMessage("3. Message Earth: {message}\n");
-            typeMessage("Type 'exit' to return, 'clear' to reset");
+            typeMessage("3. Message Earth: {message}")
         });
 
         const typeMessage = (message) => {
@@ -191,7 +177,7 @@ export class BeforeCryo extends Phaser.Scene {
         this.cameras.main.zoomTo(4, 1200, 'Sine.easeInOut', true);
 
         this.time.delayedCall(1300, () => {
-            // Move aliens slightly closer before cutting
+            // Move aliens slightly closer
             this.tweens.add({
                 targets: this.alienLeft,
                 x: this.alienLeft.x + 6,
@@ -244,8 +230,8 @@ export class BeforeCryo extends Phaser.Scene {
                 charIndex++;
                 if (charIndex >= message.length) {
                     typingEvent.remove();
-                    // Go back to main screen faster
-                    this.time.delayedCall(1000, () => this.scene.restart());
+                    // Optionally go back to main screen after a delay
+                    this.time.delayedCall(2000, () => this.scene.restart());
                 }
             },
             loop: true
