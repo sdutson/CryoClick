@@ -37,7 +37,7 @@ export class FlyAway extends Phaser.Scene {
                 ship.destroy(); // remove ship after flying off
 
                 // Show final message
-                this.add.text(300, 150, "Safe Travels!", {
+                this.add.text(300, 150, "Maybe Mars isn't for me.", {
                     fontFamily: 'monospace',
                     fontSize: '48px',
                     color: '#ffffff'
